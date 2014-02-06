@@ -49,13 +49,6 @@
             expect(function(){students.find({})}).to.throw(Error);
             expect(function(){students.find([])}).to.throw(Error);
         });
-
-        it("should throw an error if the find method is used on a different Collection prototype", function() {
-            var students = new Collection([{name: 'Jim', id: '99'}]);
-            var teachers = new Collection([{name: 'Pam', id: '1'}]);
-
-            expect(students.find(teachers.models[0])).to.throw(Error);
-        })
       });
 
       describe("has an .add() method",function(){
@@ -86,42 +79,74 @@
         it("should throw an error if given an empty object as an argument", function () {
             var students = new Collection([{name: 'Jim', id: '99'}]);
 
-            expect(students.add({})).to.throw(Error);
+            expect(function () {students.add({})}).to.throw(Error);
         });
 
         it("should throw an error when given an object without an id prop", function () {
             var students = new Collection([{name: 'Jim', id: '99'}]);
 
-            expect(students.add({name: 'jeff'})).to.throw(Error);
+            expect(function () {students.add({name: 'jeff', pet: 'kitten'})}).to.throw(Error);
         });
       });
 
-      describe("has a .remove() method",function(){
+      describe("has a .remove() method", function(){
         it("should, when given an id, remove the corresponding object from the models property", function() {
             var students = new Collection([{name: 'Jim', id: '99'}]);
             students.remove('99');
 
-            expect(student.models[0]).to.be.equal(undefined);
-        })
+            expect(students.models[0]).to.be.equal(undefined);
+        });
         it("should decrease the models property's length by 1", function() {
             var students = new Collection([{name: 'Jim', id: '99'}]);
             var lengthBeforeRemove = students.models.length;
             students.remove('99');
 
-            expect(students.models).length.to.equal(lengthBeforeRemove - 1);
+            expect(students.models.length).to.equal(lengthBeforeRemove - 1);
         });
         it("should only accept a single string as an id argument", function() {
             var students = new Collection([{name: 'Jim', id: '99'}]);
 
-            expect(students.remove({})).to.throw(Error);
-            expect(students.remove([])).to.throw(Error);
-            expect(students.remove(1)).to.throw(Error);
+            expect(function(){students.remove({})}).to.throw(Error);
+            expect(function(){students.remove([])}).to.throw(Error);
+            expect(function(){students.remove(1)}).to.throw(Error);
         });
-        it("should return true on successful removal", function() {
-            var students = new Collection([{name: 'Jim', id: '99'}]);
+        // it("should return true on successful removal", function() {
+        //     var students = new Collection([{name: 'Jim', id: '99'}]);
 
-            expect(students.remove('99')).to.return(true);
+        //     expect(students.remove('99')).to.be.true;
+        // });
+      });
+
+      describe("has an .empty() method", function(){
+        it('should remove all objects from the models array', function () {
+
         });
+
+        it('should reduce the models array length to 0');
+
+        it('should throw an error if the models array was already empty');
+
+        it('should accept no arguments');
+      })
+
+      describe("has an .random() method", function(){
+        it('should return a random object from the models array');
+
+        it('should allow a number as an argument and return that many random objects');
+
+        it('if no argument is provided, it should return just 1');
+
+        it('should throw an error if provided arg is not a number');
+      });
+
+      describe("has a .length() method", function(){
+        it('should return the length of the models array');
+
+        it('should not mutate the models array');
+
+        it('should ');
+
+        it('should accept no arguments');
       })
     })
 })();
