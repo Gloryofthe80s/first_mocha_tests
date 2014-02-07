@@ -129,7 +129,7 @@
         it('should accept no arguments');
       })
 
-      describe("has an .random() method", function(){
+      describe("has a .random() method", function(){
         it('should return a random object from the models array');
 
         it('should allow a number as an argument and return that many random objects');
@@ -144,7 +144,7 @@
 
         it('should not mutate the models array');
 
-        it('should ');
+        // it('should ');
 
         it('should accept no arguments');
       })
