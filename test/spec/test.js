@@ -119,34 +119,88 @@
 
       describe("has an .empty() method", function(){
         it('should remove all objects from the models array', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            students.empty();
 
+            expect(students.models).to.equal([]);
         });
 
-        it('should reduce the models array length to 0');
+        it('should reduce the models array length to 0', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            var lengthBeforeEmpty = students.models.length;
+            students.empty();
 
-        it('should throw an error if the models array was already empty');
+            expect(students.models.length).to.equal(0);
+        });
 
-        it('should accept no arguments');
+        it('should throw an error if the models array was already empty', function () {
+            var students = new Collection([]);
+            students.empty();
+
+            expect(function(){students.empty()}).to.throw(Error);
+        });
+
+        it('should accept no arguments', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            students.empty('bun in the oven')
+
+            expect(function(){students.empty()}).to.throw(Error);
+        });
       })
 
       describe("has a .random() method", function(){
-        it('should return a random object from the models array');
+        it('should return a random object from the models array', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
+            var randModelsNum = _.random(0, student.models.length - 1) //returns a random index number for models array
 
-        it('should allow a number as an argument and return that many random objects');
+            expect(students.random()).to.equal(students.models[0]).or.equal(students.models[1]).or.equal(students.random[2]);
+        });
 
-        it('if no argument is provided, it should return just 1');
+        it('should allow a number as an argument and return an array with that many random objects', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
+            var randResult = students.random(3);
 
-        it('should throw an error if provided arg is not a number');
+            expect(randResult).to.equal([[{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]]);
+        });
+
+        it('if no argument is provided, default arg should be 1', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
+            var randResult = students.random();
+
+            expect(randResult).to.equal(students.models[0]).or.equal(students.models[1]).or.equal(students.models[2]);
+        });
+
+        it('should throw an error if provided arg is not a number', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
+
+            expect(function(){students.random('scrubbing between the folds')}).to.throw(Error);
+        });
       });
 
       describe("has a .length() method", function(){
-        it('should return the length of the models array');
+        it('should return the length of the models array', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            students.length();
 
-        it('should not mutate the models array');
+            expect(students.models).to.have.length(2)
+        });
+
+        it('should not mutate the models array', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            var modelsNoMutate = students.models;
+            students.length();
+
+            expect(modelsNoMutate).to.equal(students.models);
+        });
 
         // it('should ');
 
-        it('should accept no arguments');
+        it('should accept no arguments', function () {
+            var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
+            students.length('bun in the oven')
+
+            expect(function(){students.empty()}).to.throw(Error);
+        });
       })
     })
 })();
