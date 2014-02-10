@@ -122,7 +122,7 @@
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
             students.empty();
 
-            expect(students.models).to.equal([]);
+            expect(students.models).to.eql([]);
         });
 
         it('should reduce the models array length to 0', function () {
@@ -134,40 +134,41 @@
         });
 
         it('should throw an error if the models array was already empty', function () {
-            var students = new Collection([]);
-            students.empty();
+            var students = new Collection([{name: 'Windy Bottoms', id: '1'}]);
+            students.models.splice(0, 1);
 
             expect(function(){students.empty()}).to.throw(Error);
         });
 
         it('should accept no arguments', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
-            students.empty('bun in the oven')
 
-            expect(function(){students.empty()}).to.throw(Error);
+            expect(function(){students.empty('bun in the oven')}).to.throw(Error);
         });
       })
 
       describe("has a .random() method", function(){
         it('should return a random object from the models array', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
-            var randModelsNum = _.random(0, student.models.length - 1) //returns a random index number for models array
-
+            var randModelsNum = _.random(0, students.models.length - 1) //returns a random index number for models array
+                //not sure how to prove that it's actually returning a random result
             expect(students.random()).to.equal(students.models[0]).or.equal(students.models[1]).or.equal(students.random[2]);
         });
 
         it('should allow a number as an argument and return an array with that many random objects', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
-            var randResult = students.random(3);
+            var result = students.random(3);
+            var howManyItReturned = result.length;
 
-            expect(randResult).to.equal([[{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]]);
+            expect(howManyItReturned).to.be.equal(3);
         });
 
         it('if no argument is provided, default arg should be 1', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}, {name: 'Bubbins', id: '3'}]);
-            var randResult = students.random();
+            var result = students.random();
+            var howManyItReturned = result.length;
 
-            expect(randResult).to.equal(students.models[0]).or.equal(students.models[1]).or.equal(students.models[2]);
+            expect(howManyItReturned).to.be.equal(1);
         });
 
         it('should throw an error if provided arg is not a number', function () {
@@ -180,9 +181,8 @@
       describe("has a .length() method", function(){
         it('should return the length of the models array', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
-            students.length();
 
-            expect(students.models).to.have.length(2)
+            expect(students.length()).to.equal(2)
         });
 
         it('should not mutate the models array', function () {
@@ -193,13 +193,11 @@
             expect(modelsNoMutate).to.equal(students.models);
         });
 
-        // it('should ');
 
         it('should accept no arguments', function () {
             var students = new Collection([{name: 'Jim', id: '99'}, {name: 'Salsa Jones', id: '2'}]);
-            students.length('bun in the oven')
 
-            expect(function(){students.empty()}).to.throw(Error);
+            expect(function(){students.empty('bun in the oven')}).to.throw(Error);
         });
       })
     })
